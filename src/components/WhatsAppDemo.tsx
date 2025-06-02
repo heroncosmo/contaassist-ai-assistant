@@ -1,8 +1,7 @@
-
 import React, { useState, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Send, Phone, MoreVertical } from 'lucide-react';
+import { Send, Phone, MoreVertical, Play } from 'lucide-react';
 
 interface WhatsAppDemoProps {
   onTestMessage: () => void;
@@ -34,6 +33,7 @@ export const WhatsAppDemo: React.FC<WhatsAppDemoProps> = ({
   ]);
   const [inputText, setInputText] = useState('');
   const [isTyping, setIsTyping] = useState(false);
+  const [isStarted, setIsStarted] = useState(false);
 
   const predefinedQuestions = [
     "Quando vence meu DAS este mês?",
@@ -131,18 +131,57 @@ export const WhatsAppDemo: React.FC<WhatsAppDemoProps> = ({
     }, 1500);
   };
 
+  const handleStartDemo = () => {
+    setIsStarted(true);
+  };
+
+  if (!isStarted) {
+    return (
+      <div className="max-w-4xl mx-auto">
+        <Card className="bg-white shadow-xl border-0 overflow-hidden">
+          <CardContent className="p-12 text-center">
+            <div className="mb-8">
+              <div className="w-20 h-20 bg-emerald-500 rounded-full flex items-center justify-center mx-auto mb-6">
+                <Play className="h-10 w-10 text-white" />
+              </div>
+              <h3 className="text-2xl font-bold text-slate-900 mb-4">
+                Demonstração do ContaAssist Pro
+              </h3>
+              <p className="text-lg text-slate-600 mb-8">
+                Veja como o assistente virtual responde perguntas reais de contabilidade
+              </p>
+              <Button 
+                size="lg"
+                className="bg-emerald-600 hover:bg-emerald-700 text-white px-8 py-4 text-lg shadow-lg"
+                onClick={handleStartDemo}
+              >
+                <Play className="mr-2 h-5 w-5" />
+                COMEÇAR DEMONSTRAÇÃO
+              </Button>
+            </div>
+            <div className="bg-slate-50 rounded-lg p-6">
+              <p className="text-sm text-slate-600">
+                💡 <strong>3 perguntas gratuitas</strong> para você testar o sistema
+              </p>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
+
   return (
     <div className="max-w-4xl mx-auto">
       <Card className="bg-white shadow-xl border-0 overflow-hidden">
         {/* WhatsApp Header */}
-        <div className="bg-[#075e54] text-white px-4 py-3 flex items-center justify-between">
+        <div className="bg-emerald-700 text-white px-4 py-3 flex items-center justify-between">
           <div className="flex items-center space-x-3">
-            <div className="w-10 h-10 bg-green-500 rounded-full flex items-center justify-center">
+            <div className="w-10 h-10 bg-emerald-600 rounded-full flex items-center justify-center">
               <span className="text-white font-bold text-sm">CA</span>
             </div>
             <div>
               <h3 className="font-medium">ContaAssist Pro</h3>
-              <p className="text-xs text-green-200">✅ Online - Respostas em 3 segundos</p>
+              <p className="text-xs text-emerald-200">✅ Online - Respostas em 3 segundos</p>
             </div>
           </div>
           <div className="flex space-x-2">
@@ -153,7 +192,7 @@ export const WhatsAppDemo: React.FC<WhatsAppDemoProps> = ({
 
         {/* Chat Messages */}
         <CardContent className="p-0">
-          <div className="h-96 overflow-y-auto bg-[#e5ddd5] p-4 space-y-3">
+          <div className="h-96 overflow-y-auto bg-slate-50 p-4 space-y-3">
             {messages.map((message) => (
               <div
                 key={message.id}
@@ -162,13 +201,13 @@ export const WhatsAppDemo: React.FC<WhatsAppDemoProps> = ({
                 <div
                   className={`max-w-xs lg:max-w-md px-4 py-2 rounded-lg ${
                     message.sender === 'user'
-                      ? 'bg-[#dcf8c6] text-gray-800'
-                      : 'bg-white text-gray-800 shadow-sm'
+                      ? 'bg-emerald-500 text-white'
+                      : 'bg-white text-slate-800 shadow-sm border'
                   }`}
                 >
                   <p className="text-sm">{message.text}</p>
                   <p className={`text-xs mt-1 ${
-                    message.sender === 'user' ? 'text-gray-600' : 'text-gray-500'
+                    message.sender === 'user' ? 'text-emerald-100' : 'text-slate-500'
                   }`}>
                     {message.timestamp}
                   </p>
@@ -178,11 +217,11 @@ export const WhatsAppDemo: React.FC<WhatsAppDemoProps> = ({
             
             {isTyping && (
               <div className="flex justify-start">
-                <div className="bg-white px-4 py-2 rounded-lg shadow-sm">
+                <div className="bg-white px-4 py-2 rounded-lg shadow-sm border">
                   <div className="flex space-x-1">
-                    <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
-                    <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
-                    <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+                    <div className="w-2 h-2 bg-slate-400 rounded-full animate-bounce"></div>
+                    <div className="w-2 h-2 bg-slate-400 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
+                    <div className="w-2 h-2 bg-slate-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
                   </div>
                 </div>
               </div>
@@ -190,8 +229,8 @@ export const WhatsAppDemo: React.FC<WhatsAppDemoProps> = ({
           </div>
 
           {/* Quick Questions */}
-          <div className="border-t border-gray-200 p-4 bg-gray-50">
-            <p className="text-sm font-medium text-gray-700 mb-3">
+          <div className="border-t border-slate-200 p-4 bg-slate-50">
+            <p className="text-sm font-medium text-slate-700 mb-3">
               💡 Perguntas mais frequentes dos contadores (clique para testar):
             </p>
             <div className="flex flex-wrap gap-2 mb-4">
@@ -200,7 +239,7 @@ export const WhatsAppDemo: React.FC<WhatsAppDemoProps> = ({
                   key={index}
                   variant="outline"
                   size="sm"
-                  className="text-xs hover:bg-blue-50 hover:border-blue-300 transition-colors"
+                  className="text-xs hover:bg-emerald-50 hover:border-emerald-300 transition-colors"
                   onClick={() => handleSendMessage(question)}
                   disabled={testCount >= maxTestCount}
                 >
@@ -218,28 +257,28 @@ export const WhatsAppDemo: React.FC<WhatsAppDemoProps> = ({
                   Para continuar testando e ter acesso completo ao ContaAssist Pro:
                 </p>
                 <div className="bg-white rounded-lg p-3 border border-orange-200">
-                  <p className="text-sm font-bold text-green-700">✅ 7 DIAS GRÁTIS + Garantia de reembolso</p>
-                  <p className="text-xs text-gray-600">Teste todos os recursos sem compromisso</p>
+                  <p className="text-sm font-bold text-emerald-700">✅ 7 DIAS GRÁTIS + Garantia de reembolso</p>
+                  <p className="text-xs text-slate-600">Teste todos os recursos sem compromisso</p>
                 </div>
               </div>
             )}
           </div>
 
           {/* Input Area */}
-          <div className="border-t border-gray-200 p-4 bg-white">
+          <div className="border-t border-slate-200 p-4 bg-white">
             <div className="flex space-x-2">
               <input
                 type="text"
                 value={inputText}
                 onChange={(e) => setInputText(e.target.value)}
                 placeholder={testCount >= maxTestCount ? "Assine para continuar testando..." : "Digite sua pergunta sobre contabilidade..."}
-                className="flex-1 px-3 py-2 border border-gray-300 rounded-full focus:outline-none focus:border-blue-500 text-sm"
+                className="flex-1 px-3 py-2 border border-slate-300 rounded-full focus:outline-none focus:border-emerald-500 text-sm"
                 onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
                 disabled={testCount >= maxTestCount}
               />
               <Button
                 onClick={() => handleSendMessage()}
-                className="bg-[#25d366] hover:bg-[#20ba5a] text-white p-2 rounded-full"
+                className="bg-emerald-600 hover:bg-emerald-700 text-white p-2 rounded-full"
                 disabled={testCount >= maxTestCount || !inputText.trim()}
               >
                 <Send className="h-4 w-4" />
