@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react';
+
+import React, { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Send, Phone, MoreVertical, Play } from 'lucide-react';
+import { Send, Phone, MoreVertical } from 'lucide-react';
 
 interface WhatsAppDemoProps {
   onTestMessage: () => void;
@@ -33,7 +34,6 @@ export const WhatsAppDemo: React.FC<WhatsAppDemoProps> = ({
   ]);
   const [inputText, setInputText] = useState('');
   const [isTyping, setIsTyping] = useState(false);
-  const [isStarted, setIsStarted] = useState(false);
 
   const predefinedQuestions = [
     "Quando vence meu DAS este mês?",
@@ -131,57 +131,18 @@ export const WhatsAppDemo: React.FC<WhatsAppDemoProps> = ({
     }, 1500);
   };
 
-  const handleStartDemo = () => {
-    setIsStarted(true);
-  };
-
-  if (!isStarted) {
-    return (
-      <div className="max-w-4xl mx-auto">
-        <Card className="bg-white shadow-xl border-0 overflow-hidden">
-          <CardContent className="p-12 text-center">
-            <div className="mb-8">
-              <div className="w-20 h-20 bg-emerald-500 rounded-full flex items-center justify-center mx-auto mb-6">
-                <Play className="h-10 w-10 text-white" />
-              </div>
-              <h3 className="text-2xl font-bold text-slate-900 mb-4">
-                Demonstração do ContaAssist Pro
-              </h3>
-              <p className="text-lg text-slate-600 mb-8">
-                Veja como o assistente virtual responde perguntas reais de contabilidade
-              </p>
-              <Button 
-                size="lg"
-                className="bg-emerald-600 hover:bg-emerald-700 text-white px-8 py-4 text-lg shadow-lg"
-                onClick={handleStartDemo}
-              >
-                <Play className="mr-2 h-5 w-5" />
-                COMEÇAR DEMONSTRAÇÃO
-              </Button>
-            </div>
-            <div className="bg-slate-50 rounded-lg p-6">
-              <p className="text-sm text-slate-600">
-                💡 <strong>3 perguntas gratuitas</strong> para você testar o sistema
-              </p>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
-    );
-  }
-
   return (
     <div className="max-w-4xl mx-auto">
       <Card className="bg-white shadow-xl border-0 overflow-hidden">
         {/* WhatsApp Header */}
-        <div className="bg-emerald-700 text-white px-4 py-3 flex items-center justify-between">
+        <div className="bg-slate-700 text-white px-4 py-3 flex items-center justify-between">
           <div className="flex items-center space-x-3">
-            <div className="w-10 h-10 bg-emerald-600 rounded-full flex items-center justify-center">
+            <div className="w-10 h-10 bg-slate-600 rounded-full flex items-center justify-center">
               <span className="text-white font-bold text-sm">CA</span>
             </div>
             <div>
               <h3 className="font-medium">ContaAssist Pro</h3>
-              <p className="text-xs text-emerald-200">✅ Online - Respostas em 3 segundos</p>
+              <p className="text-xs text-slate-300">✅ Online - Respostas em 3 segundos</p>
             </div>
           </div>
           <div className="flex space-x-2">
@@ -201,13 +162,13 @@ export const WhatsAppDemo: React.FC<WhatsAppDemoProps> = ({
                 <div
                   className={`max-w-xs lg:max-w-md px-4 py-2 rounded-lg ${
                     message.sender === 'user'
-                      ? 'bg-emerald-500 text-white'
+                      ? 'bg-blue-600 text-white'
                       : 'bg-white text-slate-800 shadow-sm border'
                   }`}
                 >
                   <p className="text-sm">{message.text}</p>
                   <p className={`text-xs mt-1 ${
-                    message.sender === 'user' ? 'text-emerald-100' : 'text-slate-500'
+                    message.sender === 'user' ? 'text-blue-100' : 'text-slate-500'
                   }`}>
                     {message.timestamp}
                   </p>
@@ -231,7 +192,7 @@ export const WhatsAppDemo: React.FC<WhatsAppDemoProps> = ({
           {/* Quick Questions */}
           <div className="border-t border-slate-200 p-4 bg-slate-50">
             <p className="text-sm font-medium text-slate-700 mb-3">
-              💡 Perguntas mais frequentes dos contadores (clique para testar):
+              💡 Perguntas frequentes (clique para testar):
             </p>
             <div className="flex flex-wrap gap-2 mb-4">
               {predefinedQuestions.slice(0, testCount >= maxTestCount ? 0 : 5).map((question, index) => (
@@ -239,7 +200,7 @@ export const WhatsAppDemo: React.FC<WhatsAppDemoProps> = ({
                   key={index}
                   variant="outline"
                   size="sm"
-                  className="text-xs hover:bg-emerald-50 hover:border-emerald-300 transition-colors"
+                  className="text-xs hover:bg-blue-50 hover:border-blue-300 transition-colors"
                   onClick={() => handleSendMessage(question)}
                   disabled={testCount >= maxTestCount}
                 >
@@ -249,17 +210,19 @@ export const WhatsAppDemo: React.FC<WhatsAppDemoProps> = ({
             </div>
             
             {testCount >= maxTestCount && (
-              <div className="bg-gradient-to-r from-orange-50 to-red-50 border border-orange-200 rounded-lg p-4 mb-4">
-                <p className="text-sm text-orange-700 font-bold mb-2">
-                  🔒 Você testou o limite gratuito!
+              <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-4 text-center">
+                <p className="text-sm text-slate-700 font-medium mb-3">
+                  Você testou todas as 3 perguntas gratuitas.
                 </p>
-                <p className="text-xs text-orange-600 mb-3">
-                  Para continuar testando e ter acesso completo ao ContaAssist Pro:
+                <p className="text-xs text-slate-600 mb-4">
+                  Para continuar usando o ContaAssist Pro sem limitações:
                 </p>
-                <div className="bg-white rounded-lg p-3 border border-orange-200">
-                  <p className="text-sm font-bold text-emerald-700">✅ 7 DIAS GRÁTIS + Garantia de reembolso</p>
-                  <p className="text-xs text-slate-600">Teste todos os recursos sem compromisso</p>
-                </div>
+                <Button 
+                  className="bg-blue-600 hover:bg-blue-700 text-white font-medium"
+                  onClick={onMaxReached}
+                >
+                  ASSINAR CONTAASSIST PRO
+                </Button>
               </div>
             )}
           </div>
@@ -271,14 +234,14 @@ export const WhatsAppDemo: React.FC<WhatsAppDemoProps> = ({
                 type="text"
                 value={inputText}
                 onChange={(e) => setInputText(e.target.value)}
-                placeholder={testCount >= maxTestCount ? "Assine para continuar testando..." : "Digite sua pergunta sobre contabilidade..."}
-                className="flex-1 px-3 py-2 border border-slate-300 rounded-full focus:outline-none focus:border-emerald-500 text-sm"
+                placeholder={testCount >= maxTestCount ? "Assine para continuar usando..." : "Digite sua pergunta sobre contabilidade..."}
+                className="flex-1 px-3 py-2 border border-slate-300 rounded-full focus:outline-none focus:border-blue-500 text-sm"
                 onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
                 disabled={testCount >= maxTestCount}
               />
               <Button
                 onClick={() => handleSendMessage()}
-                className="bg-emerald-600 hover:bg-emerald-700 text-white p-2 rounded-full"
+                className="bg-blue-600 hover:bg-blue-700 text-white p-2 rounded-full"
                 disabled={testCount >= maxTestCount || !inputText.trim()}
               >
                 <Send className="h-4 w-4" />
